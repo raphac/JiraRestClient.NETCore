@@ -1,6 +1,4 @@
-﻿using JiraRestClient.Net.Util;
-
-namespace Cschulc.Jira.Util
+﻿namespace JiraRestClient.Net.Util
 {
     public class RestPathConstants : JsonConstants
     {
@@ -12,6 +10,8 @@ namespace Cschulc.Jira.Util
         public const string USER = "user";
 
         public const string SEARCH = "search";
+        
+        public const string META = "createmeta";
 
         public const string ISSUE = "issue";
 

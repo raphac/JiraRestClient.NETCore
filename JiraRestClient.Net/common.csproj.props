@@ -1,0 +1,17 @@
+<Project>
+    <PropertyGroup>
+        <Version>1.3.0-beta2</Version>
+        <authors>Christian Schulze, cschulc@outlook.com</authors>
+        <owners>Christian Schulze, cschulc@outlook.com</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <copyright>cschulc 2016</copyright>
+        <RepositoryUrl>https://github.com/cschulc/JiraRestClient.NETCore</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+</Project> 

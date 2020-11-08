@@ -1,27 +1,58 @@
-using System.Net.Http;
-using System.Text;
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
-using Cschulc.Jira.Util;
+using System.Threading.Tasks;
 using JiraRestClient.Net.Jql;
+using JiraRestClient.Net.Util;
+using Newtonsoft.Json.Linq;
 
 namespace JiraRestClient.Net.Core
 {
     public class SearchClient : BaseClient
     {
-        public SearchClient(JiraRestClient jiraRestClient) : base(jiraRestClient)
+        private readonly IDictionary<string, string> _newStringByStringToReplace;
+
+        public SearchClient(JiraRestClient jiraRestClient, IDictionary<string, string> newStringByStringToReplace) : base(jiraRestClient)
         {
+            _newStringByStringToReplace = newStringByStringToReplace;
         }
 
-        public JqlSearchResult SearchIssues(JqlSearchBean jqlSearchBean)
+        public async Task<JqlSearchResult> SearchIssuesAsync(JqlSearchBean jqlSearchBean)
         {
-            var json = JsonHelper.ToJson(jqlSearchBean, typeof(JqlSearchBean));
             var uri = UriHelper.BuildPath(BaseUri, RestPathConstants.SEARCH);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = Client.PostAsync(uri.ToString(), httpContent);
-            var readAsStringAsync = response.Result.Content.ReadAsStringAsync();
-            var result = readAsStringAsync.Result;
-            return JsonSerializer.Deserialize<JqlSearchResult>(result);
+            uri = UriHelper.AddQuery(uri, "jql",jqlSearchBean.Jql);
+            return JsonSerializer.Deserialize<JqlSearchResult>(await SearchIssuesAsync(uri));
+        }
+
+        public async Task<dynamic> SearchIssuesDynamicAsync(JqlSearchBean jqlSearchBean)
+        {
+            var uri = UriHelper.BuildPath(BaseUri, RestPathConstants.SEARCH);
+            uri = UriHelper.AddQuery(uri, "jql",jqlSearchBean.Jql);
+            return JObject.Parse(await SearchIssuesAsync(uri));
+        }
+        
+        public async Task<dynamic> SearchIssuesDynamicAsync(string restPath, string query)
+        {
+            var uri = UriHelper.BuildPath(BaseUri, restPath);
+            uri.Query = query;
+            return JObject.Parse(await SearchIssuesAsync(uri));
+        }
+        
+        private async Task<string> SearchIssuesAsync(UriBuilder uri)
+        {
+            var response = await Client.GetAsync(uri.ToString());
+            var content = await response.Content.ReadAsStringAsync();
+            return ReplaceCustomFieldNames(content);
+        }
+        
+        private string ReplaceCustomFieldNames(string content)
+        {
+            foreach (var keyValuePair in _newStringByStringToReplace)
+            {
+                content = content.Replace(keyValuePair.Key, keyValuePair.Value);
+            }
+
+            return content;
         }
     }
-
 }

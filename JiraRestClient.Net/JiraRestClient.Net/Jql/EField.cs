@@ -86,7 +86,7 @@
 
         public EFieldType Type { get; private set; }
 
-        private EField(string field, EFieldType type)
+        public EField(string field, EFieldType type)
         {
             this.Field = field;
             this.Type = type;

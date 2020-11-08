@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace JiraRestClient.Net.Test
 {
@@ -17,7 +18,7 @@ namespace JiraRestClient.Net.Test
         protected readonly JiraRestClient RestClient;
 
         public BaseTest(){
-            RestClient =  new JiraRestClient(Uri, Username, Password);
+            RestClient =  new JiraRestClient(Uri, Username, Password, new Dictionary<string, string>());
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -8,6 +9,7 @@ namespace JiraRestClient.Net
 {
     public class JiraRestClient
     {
+        private readonly IDictionary<string, string> _newCustomFieldNameByCustomFieldId;
         public HttpClient Client { get; }
 
         public Uri BaseUri { get; }
@@ -25,8 +27,9 @@ namespace JiraRestClient.Net
 
         private ProjectClient _projectClient;
 
-        public JiraRestClient(Uri uri, string username, string password)
+        public JiraRestClient(Uri uri, string username, string password, IDictionary<string, string> newCustomFieldNameByCustomFieldId)
         {
+            _newCustomFieldNameByCustomFieldId = newCustomFieldNameByCustomFieldId;
             Client = new HttpClient();
             BaseUri = uri;
             Username = username;
@@ -40,7 +43,7 @@ namespace JiraRestClient.Net
 
         public UserClient UserClient => _userClient ?? (_userClient = new UserClient(this));
 
-        public SearchClient SearchClient => _searchClient ?? (_searchClient = new SearchClient(this));
+        public SearchClient SearchClient => _searchClient ?? (_searchClient = new SearchClient(this, _newCustomFieldNameByCustomFieldId));
 
         public SystemClient SystemClient => _systemClient ?? (_systemClient = new SystemClient(this));
 

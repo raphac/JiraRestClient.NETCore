@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Cschulc.Jira.Util
+namespace JiraRestClient.Net.Util
 {
     public static class UriHelper
     {
@@ -16,7 +16,7 @@ namespace Cschulc.Jira.Util
         {
             var query = uribuilder.Query;
             var queryParam = name + "=" + WebUtility.UrlEncode(value);
-            if(String.IsNullOrEmpty(query) == true)
+            if(string.IsNullOrEmpty(query))
             {
                 uribuilder.Query = queryParam;
             }

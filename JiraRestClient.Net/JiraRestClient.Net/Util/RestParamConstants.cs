@@ -1,4 +1,4 @@
-﻿namespace Cschulc.Jira.Util
+﻿namespace JiraRestClient.Net.Util
 {
     public class RestParamConstants
     {

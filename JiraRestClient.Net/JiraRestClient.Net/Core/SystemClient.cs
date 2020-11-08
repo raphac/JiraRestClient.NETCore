@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Text.Json;
-using Cschulc.Jira.Util;
+using System.Threading.Tasks;
 using JiraRestClient.Net.Domain;
+using JiraRestClient.Net.Util;
 
 namespace JiraRestClient.Net.Core
 {
@@ -11,23 +12,25 @@ namespace JiraRestClient.Net.Core
         {
         }
 
-        public List<IssueType> GetIssueTypes()
+        public async Task<List<IssueType>> GetIssueTypesAsync()
         {
             var restUriBuilder = UriHelper.BuildPath(BaseUri, RestPathConstants.ISSUETPYES);
-            var stream = Client.GetStringAsync(restUriBuilder.ToString());
-            return JsonSerializer.Deserialize<List<IssueType>>(stream.Result);
+            var stream = await Client.GetStringAsync(restUriBuilder.ToString());
+            return JsonSerializer.Deserialize<List<IssueType>>(stream);
         }
 
-        public List<Priority> GetPriorities(){
+        public async Task<List<Priority>> GetPrioritiesAsync()
+        {
             var restUriBuilder = UriHelper.BuildPath(BaseUri, RestPathConstants.PRIORITY);
-            var stream = Client.GetStringAsync(restUriBuilder.ToString());
-            return JsonSerializer.Deserialize<List<Priority>>(stream.Result);
+            var stream = await Client.GetStringAsync(restUriBuilder.ToString());
+            return JsonSerializer.Deserialize<List<Priority>>(stream);
         }
 
-        public List<Status> GetStates(){
+        public async Task<List<Status>> GetStatesAsync()
+        {
             var restUriBuilder = UriHelper.BuildPath(BaseUri, RestPathConstants.STATUS);
-            var stream = Client.GetStringAsync(restUriBuilder.ToString());
-            return JsonSerializer.Deserialize<List<Status>>(stream.Result);
+            var stream = await Client.GetStringAsync(restUriBuilder.ToString());
+            return JsonSerializer.Deserialize<List<Status>>(stream);
         }
     }
 }

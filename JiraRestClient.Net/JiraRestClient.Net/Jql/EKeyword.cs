@@ -1,4 +1,4 @@
-﻿namespace Cschulc.Jira.Jql
+﻿namespace JiraRestClient.Net.Jql
 {
     public class EKeyword
     {
@@ -15,6 +15,7 @@
          */
         public static readonly EKeyword AND = new EKeyword("and");
 
+#pragma warning disable 1570
         /**
          * Used to combine multiple clauses, allowing you to expand your search.
          * <p>Examples:</p>
@@ -23,6 +24,7 @@
          * <li>duedate < now() or duedate is empty</li>
          * </ul>
          */
+#pragma warning restore 1570
         public static readonly EKeyword OR = new EKeyword("or");
 
         /**

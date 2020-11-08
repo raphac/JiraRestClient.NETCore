@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,14 +8,14 @@ namespace JiraRestClient.Net.Test
     public class TestProjectClient :BaseTest
     {
         [TestMethod]
-        public void TestGetAllProjects(){
-            var task = RestClient.ProjectClient.GetAllProjects();
+        public async Task TestGetAllProjects(){
+            var task = await RestClient.ProjectClient.GetAllProjectsAsync();
             task.Should().NotBeNullOrEmpty();
         }
 
         [TestMethod]
-        public void TestProjectByKey(){
-            var project = RestClient.ProjectClient.GetProjectByKey(ProjectKey);
+        public async Task TestProjectByKey(){
+            var project = await RestClient.ProjectClient.GetProjectByKeyAsync(ProjectKey);
             project.Should().NotBeNull();
             project.Key.Should().Be(ProjectKey);
         }

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Text.Json;
-using Cschulc.Jira.Util;
+using System.Threading.Tasks;
 using JiraRestClient.Net.Domain;
+using JiraRestClient.Net.Util;
 
 namespace JiraRestClient.Net.Core
 {
@@ -19,17 +20,17 @@ namespace JiraRestClient.Net.Core
         /// </summary>
         /// <param name="key">The key of the Issue</param>
         /// <returns>A async Task containing the Issue</returns>
-        public Issue GetIssueByKey(string key)
+        public async Task<Issue> GetIssueByKeyAsync(string key)
         {
             var restUriBuilder = UriHelper.BuildPath(BaseUri, RestPathConstants.ISSUE, key);
             var completeUri = restUriBuilder.ToString();
             var stream = Client.GetStringAsync(completeUri);
-            var streamResult = stream.Result;
+            var streamResult = await stream;
             return JsonSerializer.Deserialize<Issue>(streamResult);
         }
 
 
-        public Issue GetIssueByKey(string key, List<string> fields, List<string> expand)
+        public async Task<Issue> GetIssueByKeyAsync(string key, List<string> fields, List<string> expand)
         {
             var restUriBuilder = UriHelper.BuildPath(BaseUri, RestPathConstants.ISSUE, key);
             if(fields != null && fields.Count > 0)
@@ -43,9 +44,8 @@ namespace JiraRestClient.Net.Core
                 UriHelper.AddQuery(restUriBuilder, RestParamConstants.EXPAND, expandParam);
             }
             var completeUri = restUriBuilder.ToString();
-            var stream = Client.GetStringAsync(completeUri);
-            var streamResult = stream.Result;
-            return JsonSerializer.Deserialize<Issue>(streamResult);
+            var stream = await Client.GetStringAsync(completeUri);
+            return JsonSerializer.Deserialize<Issue>(stream);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,18 +9,18 @@ namespace JiraRestClient.Net.Test
     {
 
         [TestMethod]
-        public void TestGetLoggedInUser()
+        public async Task TestGetLoggedInUser()
         {
             var userClient = RestClient.UserClient;
-            var user = userClient.GetLoggedInUser();
+            var user = await userClient.GetLoggedInUserAsync();
             user.Should().NotBeNull();
         }
 
         [TestMethod]
-        public void TestGetUserByUsername()
+        public async Task TestGetUserByUsername()
         {
             var userClient = RestClient.UserClient;
-            var user = userClient.GetUserByUsername(Username);
+            var user = await userClient.GetUserByUsernameAsync(Username);
             user.Should().NotBeNull();
         }
     }

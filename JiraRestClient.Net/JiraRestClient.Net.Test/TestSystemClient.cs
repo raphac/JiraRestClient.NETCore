@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,15 +9,15 @@ namespace JiraRestClient.Net.Test
     {
 
         [TestMethod]
-        public void TestGetIssueTypes()
+        public async Task TestGetIssueTypes()
         {           
-            var issueTypes = RestClient.SystemClient.GetIssueTypes();
+            var issueTypes = await RestClient.SystemClient.GetIssueTypesAsync();
             issueTypes.Should().NotBeNullOrEmpty();
         }
 
         [TestMethod]
-        public void TestGetPriorities(){
-            var priorities = RestClient.SystemClient.GetPriorities();
+        public async Task TestGetPriorities(){
+            var priorities = await RestClient.SystemClient.GetPrioritiesAsync();
             priorities.Should().NotBeNullOrEmpty();
         }
     }

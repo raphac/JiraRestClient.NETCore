@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Cschulc.Jira.Jql;
 
 namespace JiraRestClient.Net.Jql
 {
@@ -8,9 +7,14 @@ namespace JiraRestClient.Net.Jql
     {
         private StringBuilder Jql { get; set; }
 
-        public JqlBuilder()
+        private JqlBuilder()
         {
             Jql = new StringBuilder();
+        }
+
+        public static JqlBuilder Create()
+        {
+            return new JqlBuilder();
         }
 
         public JqlKeyword AddCondition(EField field, EOperator eoperator, String operand)
@@ -35,6 +39,14 @@ namespace JiraRestClient.Net.Jql
         {
             Jql.Clear();
         }
+        
+        public JqlKeyword Brackets(Func<JqlBuilder, JqlKeyword> queryInBrackets)
+        {
+            Jql.Append("(");
+            var jqlKeyWord = queryInBrackets(this);
+            Jql.Append(") ");
+            return jqlKeyWord;
+        }
 
         public class JqlKeyword
         {
@@ -52,7 +64,7 @@ namespace JiraRestClient.Net.Jql
                 return Jqlbuilder;
             }
 
-            public String OrderBy(SortOrder order, params EField[] fields)
+            public string OrderBy(SortOrder order, params EField[] fields)
             {
                 if (fields == null || order == null || fields.Length == 0)
                 {
@@ -62,7 +74,7 @@ namespace JiraRestClient.Net.Jql
                 Jqlbuilder.Jql.Append(EKeyword.ORDER_BY + " ");
                 Jqlbuilder.Jql.Append(fields[0]);
 
-                for (int i = 1; i < fields.Length; i++)
+                for (var i = 1; i < fields.Length; i++)
                 {
                     Jqlbuilder.Jql.Append(", ");
                     Jqlbuilder.Jql.Append(fields[i]);
@@ -72,9 +84,10 @@ namespace JiraRestClient.Net.Jql
 
                 return Build();
             }
-            public String Build()
+
+            public string Build()
             {
-                String request = Jqlbuilder.Jql.ToString();
+                var request = Jqlbuilder.Jql.ToString();
                 Jqlbuilder.Clear();
                 return request;
             }

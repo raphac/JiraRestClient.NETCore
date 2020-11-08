@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace Cschulc.Jira.Util
+namespace JiraRestClient.Net.Util
 {
     public class JsonHelper
     {
