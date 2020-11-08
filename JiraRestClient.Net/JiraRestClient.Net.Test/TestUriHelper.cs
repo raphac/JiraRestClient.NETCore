@@ -9,7 +9,7 @@ namespace JiraRestClient.Net.Test
         [TestMethod]
         public void TestBuilderPath()
         {
-            var userUri = UriHelper.BuildPath(Uri, RestPathConstants.USER, RestPathConstants.ATTACHMENTS,
+            var userUri = UriHelper.BuildPath(HttpClient.BaseAddress, RestPathConstants.USER, RestPathConstants.ATTACHMENTS,
                 RestParamConstants.ISSUEKEY);
             Assert.AreEqual("http://localhost:2990/jira/rest/api/2/user/attachments/issueKey", userUri.ToString());
         }
@@ -18,7 +18,7 @@ namespace JiraRestClient.Net.Test
         [Ignore]
         public void TestAddQuery()
         {
-            var uriBuilder = UriHelper.BuildPath(Uri, RestPathConstants.ISSUE);
+            var uriBuilder = UriHelper.BuildPath(HttpClient.BaseAddress, RestPathConstants.ISSUE);
             UriHelper.AddQuery(uriBuilder, "expand", "summary");
             UriHelper.AddQuery(uriBuilder, "field", "renderedFields");
             Assert.AreEqual("http://localhost:2990/jira/rest/api/2/issue&expand=summary&field=renderedFields",

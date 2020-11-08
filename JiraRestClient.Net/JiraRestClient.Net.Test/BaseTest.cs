@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
+using System.Net.Http;
+using JiraRestClient.Net.DependencyInjection;
 
 namespace JiraRestClient.Net.Test
 {
     public abstract class BaseTest
     {
-        protected readonly Uri Uri = new Uri("https://localhost:2990/");
+        protected readonly string Uri = "https://localhost:2990/";
 
         protected const string Username = "admin";
 
@@ -15,10 +15,20 @@ namespace JiraRestClient.Net.Test
 
         protected const string IssuekeyToSearch = "DEMO-1";
 
-        protected readonly JiraRestClient RestClient;
+        protected readonly HttpClient HttpClient;
+        
+        protected readonly JiraRestClientOptions JiraRestClientOptions;
 
-        public BaseTest(){
-            RestClient =  new JiraRestClient(Uri, Username, Password, new Dictionary<string, string>());
+        public BaseTest()
+        {
+            HttpClient = new HttpClient();
+            JiraRestClientOptions = new JiraRestClientOptions
+            {
+                BaseUri = Uri,
+                Password = Password,
+                UserName = Username
+            };
+            ServiceProviderConfig.ConfigureHttpClient(HttpClient, JiraRestClientOptions);
         }
     }
 }

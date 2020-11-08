@@ -88,8 +88,8 @@
 
         public EField(string field, EFieldType type)
         {
-            this.Field = field;
-            this.Type = type;
+            Field = field;
+            Type = type;
         }
 
         public override string ToString()
